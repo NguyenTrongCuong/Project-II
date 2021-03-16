@@ -1,0 +1,158 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/common/layout.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/employee/customer-care/employee-customer-care-page.css}"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script th:src="@{/js/library/drop-zone/dropzone-amd-module.min.js}"></script>
+	<script th:src="@{/js/library/drop-zone/dropzone.min.js}"></script>
+	<title>Project</title>
+</head>
+<body>
+	<th:block th:each="element : ${joinedRooms}">
+		<input type="hidden" class="room-element" th:value="|${element.id}|" th:data-status="|${element.isClosed}|"/>
+		<th:block th:switch="${element.isClosed}">
+			<th:block th:case="0">
+				<input type="hidden" class="joined-room" th:value="|${element.id}|"/>
+			</th:block>
+		</th:block>
+	</th:block>
+	
+	<input type="hidden" id="employee-email" th:value="|${session.employee.email}|"/>
+	
+	<div class="header">
+	  	<h1>Header</h1>
+	  	<p>Resize the browser window to see the responsive effect.</p>
+	</div>
+	
+	<div class="topnav">
+		<th:block th:with="temp=${session.employee}">
+			<th:block th:switch="${temp}">
+				<th:block th:case="null">
+					<a th:href="@{/employee/sign-in}" class="new">Sign in</a>
+				</th:block>
+				<th:block th:case="*">
+					<a th:href="@{/employee}" class="link">
+						<img th:src="|${session.employee.avatarLink}|" class="avatar" alt="avatar"/>
+					</a>
+					<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<a href="#" class="new">Watch statistics</a>
+					</div>
+					<div sec:authorize="hasRole('ROLE_STAFF')">
+						<a th:href="@{/employee/chat-with-customers}" class="new link">Chat with customers</a>
+					</div>
+					<form th:action="@{/employee/do-sign-out}" method="POST">
+						<a id="sign-out-button" th:href="@{/}" class="new link">Sign out</a>
+					</form>
+				</th:block>
+			</th:block>
+		</th:block>
+	</div>
+	
+	<div class="row">
+        <div class="column column-element-1">
+            <h2>Conversations</h2>
+            <div class="column-container">
+            	<th:block th:each="joinedRoom : ${joinedRooms}">
+	            	<div class='notification-element' th:id="|conversation-${joinedRoom.id}|" th:data-receiverEmail="${joinedRoom.clientDTO.email}" th:onclick="|getMessages(${joinedRoom.id})|">
+	            		<div class="conversation-element conversation-image-element">
+	            			<img th:src="|${joinedRoom.clientDTO.avatarLink}|" class="image-element"/>
+	            		</div>
+	            		<div class="conversation-element conversation-content-element">
+	            			<b style="font-size: 20px;" th:text="|${joinedRoom.employeeRoomName}|"></b>
+		            		<th:block th:switch="${joinedRoom.messages.size()}">
+		            			<th:block th:case="0">
+		            				<p></p>
+		            			</th:block>
+		            			<th:block th:case="*">
+		            				<th:block th:each="message : ${joinedRoom.messages}">
+		            					<th:block th:if="${messageStat.last}">
+		            						<p th:text="|${message.senderFullName}: ${message.content}|"></p>
+		            					</th:block>
+		            				</th:block>
+		            			</th:block>
+		            		</th:block>
+	            		</div>
+	            	</div>
+	            </th:block>
+            </div>
+        </div>
+        
+        <div class="column column-element-2">
+            <h2>Message</h2>
+            
+        </div>
+    </div>
+	
+	<script th:src="@{/js/common/sign-out.js}"></script>
+	<script th:src="@{/js/employee/customer-care/employee-customer-care-page.js}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

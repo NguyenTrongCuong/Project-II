@@ -1,0 +1,279 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Style the header */
+.header {
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  height: 75px;
+}
+
+.topnav .new {
+	padding-top: 30px; 
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 15px;
+}
+
+.column-element-1 {
+	width: 100%;
+}
+
+.column-element-2 {
+	width: 30%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width:600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+.avatar {
+	width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#left-conversation-element {
+	display: none;
+}
+
+#give-feedback-element {
+	display: none;
+}
+
+#container-element {
+    border: 1px solid black;
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+}
+
+#content-element {
+    border: 1px solid black;
+    width: 100%;
+    height: 375px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#answer-element {
+    margin-top: 10px;
+    border: 1px solid black;
+    width: 100%;
+    height: 205px;
+    padding: 10px;
+}
+
+#byte-element {
+    width: 100%;
+    height: 85px;
+    border: 1px solid black;
+    padding: 10px;
+    border-bottom: 0px;
+}
+
+#text-element {
+    width: 100%;
+    height: 100px;
+    border: 1px solid black;
+    padding: 10px;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+
+.dz-image {
+    width: 50px;
+    height: 50px;
+}
+
+.dz-image-preview {
+    float: left;
+    margin-left: 5px;
+}
+
+.dz-image img {
+    width: 70px;
+    height: 50px;
+}
+
+.dz-details {
+    display: none;
+}
+
+.dz-success-mark {
+    display: none;
+}
+
+.dz-error-mark {
+    display: none;
+}
+
+.others-content-element {
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 350px;
+  resize: both;
+  word-wrap: break-word;
+  padding: 10px;
+  margin-left: 35px;
+}
+
+.me-content-element {
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 350px;
+  resize: both;
+  word-wrap: break-word;
+  padding: 10px;
+}
+
+
+
+.symbol {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content-element-child-others {
+  margin-top: 10px;
+}
+
+.content-element-child-others-image {
+  float: left;
+}
+
+.content-element-child-me {
+  margin-top: 15px;
+   margin-left: 1040px;
+}
+
+.content-element-child-me-image {
+  float: right;
+}
+
+.icon-element {
+  font-size: 50px;
+}
+
+video {
+  width: 320px;
+   height: auto;
+}
+
+.image-message {
+  display: block;
+   height: auto; 
+   width: auto;
+    margin-left: auto;
+     margin-right: auto;
+}
+
+#text-rating-element {
+	margin-top: 20px;
+}
+
+#text-rating-content-element {
+	word-wrap: break-word;
+	width: 100%;
+	height: 200px;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+#rating-button-element {
+	margin-top: 10px;
+}
+
+#rating-button-child-element {
+	margin-left: 89%;
+}
+
+#star-rating-element {
+	margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
