@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import root.entity.Employee;
 import root.entity_repository.EmployeeRepository;
 import root.utils.EmployeeDTO;
+import root.utils.SearchRequest;
 
 
 @Service
@@ -32,6 +33,11 @@ public class EmployeeService {
 	
 	public EmployeeDTO convertEmployeeToEmployeeDTO(Employee employee) {
 		return new EmployeeDTO(employee);
+	}
+	
+	public Optional<List<Employee>> findEmployeeByRegexp(SearchRequest request) {
+		String regexp = "%" + request.getRegexp() + "%";
+		return this.employeeRepository.findEmployeeByRegexp(regexp.toLowerCase());
 	}
 
 }

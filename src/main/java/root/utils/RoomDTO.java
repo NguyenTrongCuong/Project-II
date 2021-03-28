@@ -17,6 +17,8 @@ public class RoomDTO {
 	private String clientRoomName;
 	private String employeeRoomName;
 	private int isClosed;
+	private String starFeedback;
+	private String textFeedback;
 	private List<MessageDTO> messages = new ArrayList<>();
 	private ClientDTO clientDTO;
 	private EmployeeDTO employeeDTO;
@@ -26,9 +28,22 @@ public class RoomDTO {
 		this.clientRoomName = "Chat with " + room.getEmployee().getFullName();
 		this.employeeRoomName = room.isClosed() == false ? room.getClient().getFullName() : room.getClient().getFullName() + " (Closed)";
 		this.isClosed = room.isClosed() == true ? 1 : 0;
+		this.starFeedback = room.getStarFeedback();
+		this.textFeedback = room.getTextFeedback();
 		this.clientDTO = clientService.convertClientToClientDTO(room.getClient());
 		this.employeeDTO = employeeService.convertEmployeeToEmployeeDTO(room.getEmployee());
 		this.performConvert(room, messageService);
+	}
+	
+	public RoomDTO(Room room, ClientService clientService, EmployeeService employeeService) {
+		this.id = room.getId();
+		this.clientRoomName = "Chat with " + room.getEmployee().getFullName();
+		this.employeeRoomName = room.isClosed() == false ? room.getClient().getFullName() : room.getClient().getFullName() + " (Closed)";
+		this.isClosed = room.isClosed() == true ? 1 : 0;
+		this.starFeedback = room.getStarFeedback();
+		this.textFeedback = room.getTextFeedback();
+		this.clientDTO = clientService.convertClientToClientDTO(room.getClient());
+		this.employeeDTO = employeeService.convertEmployeeToEmployeeDTO(room.getEmployee());
 	}
 	
 	private void performConvert(Room room, MessageService messageService) {
@@ -38,6 +53,22 @@ public class RoomDTO {
 		}
 		Comparator<MessageDTO> comparator = Comparator.comparing(MessageDTO::getId);
 		Collections.sort(this.messages, comparator);
+	}
+
+	public String getStarFeedback() {
+		return starFeedback;
+	}
+
+	public void setStarFeedback(String starFeedback) {
+		this.starFeedback = starFeedback;
+	}
+
+	public String getTextFeedback() {
+		return textFeedback;
+	}
+
+	public void setTextFeedback(String textFeedback) {
+		this.textFeedback = textFeedback;
 	}
 
 	public int getIsClosed() {

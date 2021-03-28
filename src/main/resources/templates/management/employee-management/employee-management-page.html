@@ -7,16 +7,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/common/layout.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/common/notification.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/employee/management/employee-management-page.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/library/autocomplete/jquery-ui.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/library/autocomplete/jquery-ui.theme.min.css}"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script th:src="@{/js/library/autocomplete/jquery-ui.min.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 	<title>Project</title>
 </head>
 <body>
-	<input type="hidden" id="employee-email" th:value="|${session.employee.email}|"/>
-
 	<div class="header">
 	  	<h1>Header</h1>
 	  	<p>Resize the browser window to see the responsive effect.</p>
@@ -36,10 +36,7 @@
 						<a th:href="@{/employee/management}" class="new">Management</a>
 					</div>
 					<div sec:authorize="hasRole('ROLE_STAFF')">
-						<a th:href="@{/employee/chat-with-customers}" class="new notification">
-							Chat with customers
-							<span class="badge">0</span>
-						</a>
+						<a th:href="@{/employee/chat-with-customers}" class="new">Chat with customers</a>
 					</div>
 					<form th:action="@{/employee/do-sign-out}" method="POST">
 						<a id="sign-out-button" th:href="@{/}" class="new">Sign out</a>
@@ -50,15 +47,29 @@
 	</div>
 	
 	<div class="row">
-		<div class="column">
-	    	<h1>Header</h1>
-	    	<p>HEHEHEHE</p>
-	  	</div>
-	</div>
+        <div class="column column1">
+            <h2>Column</h2>
+            <div class="icons-container" id="chart-icon">
+                <i class="fas fa-chart-area"></i>
+            </div>
+            <div class="icons-container" id="management-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+        </div>
+        
+        <div class="column column2">
+            <h2>Column</h2>
+            <p></p>
+        </div>
+
+        <div class="column column3">
+            <h2>Column</h2>
+        </div>
+        
+    </div>
 	
-	<div sec:authorize="hasRole('ROLE_STAFF')">
-		<script th:src="@{/js/common/notification-handler.js}"></script>
-	</div>
+	
+	<script th:src="@{/js/employee/employee-management/employee-management-page.js}"></script>
 	<script th:src="@{/js/common/sign-out.js}"></script>
 	
 </body>

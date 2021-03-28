@@ -173,7 +173,7 @@ function sendFeedback() {
 	else {
 		const feedback = {
 			textFeedback: textRating,
-			starFeedback: score === 0 ? "Blank" : score
+			starFeedback: score === 0 ? "6" : score
 		};
 		$.ajax({
 			url: "/give-feedback/" + isInRoom,
@@ -260,6 +260,7 @@ leftConversationElement.onclick = function(event) {
     			reset();
     			isInRoom = 0;
     			isChattingWith = "";
+    			roomInstance = null;
     		},
     		error: function() {
     			alert("Something went wrong");

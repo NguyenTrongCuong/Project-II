@@ -39,6 +39,8 @@ public class CreateRoomService {
 		room.setCreatedAt(Instant.now());
 		room.setName("Conversation between " + client.getFullName() + " and " + employee.getFullName());
 		room.setClosed(false);
+		room.setStarFeedback("6");
+		room.setTextFeedback("");
 		employee.getRooms().add(room);
 		room = this.roomService.saveRoom(room);
 		this.employeeService.updateEmployee(employee);

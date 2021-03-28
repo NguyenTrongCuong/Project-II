@@ -2,9 +2,12 @@ package root.entity_service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -81,12 +84,24 @@ public class MessageService {
 		if(!message.getTextContent().equals("")) {
 			Message element = new Message();
 			element.setBinary(false);
-			element.setContent(message.getTextContent());
+			element.setContent(this.checkUrl(message.getTextContent()));
 			element.setSentAt(Instant.now());
 			messages.add(element);
 		}
 		
 		return messages;
+	}
+	
+	private String checkUrl(String message) {
+		UrlValidator urlValidator = new UrlValidator();
+		
+		String[] elements = message.split(" ");
+		
+		Stream<String> stream = Arrays.stream(elements);
+		
+		return stream.map(element -> urlValidator.isValid(element) ? "<a href='" + element + "' target='_blank'>" + element + "</a>" : element)
+				  	 .reduce("", (first, second) -> first + second + " ")
+				  	 .trim();
 	}
 	
 	private String getExtension(String fileName) {

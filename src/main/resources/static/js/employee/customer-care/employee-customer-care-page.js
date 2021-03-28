@@ -28,6 +28,29 @@ function connect() {
 		setStatusMap();
 		connectToJoinedRooms();
 		subscribeToMessageNotificationQueue();
+		subscribeToNotificationQueue();
+	});
+}
+
+function subscribeToNotificationQueue() {
+	stompClient.subscribe("/queue/notification-of-" + employeeEmail, (response) => {
+		const notification = JSON.parse(response.body);
+		
+		if(notification.type === "Message Notification") {
+			if(isInRoom === notification.room.id) {
+				updateMessageNotificationIsSeenOfANotification(notification.id);
+			}
+		}
+	});
+}
+
+function updateMessageNotificationIsSeenOfANotification(id) {
+	$.ajax({
+		url: "/employee/update-message-notification-is-seen-of-a-notification/" + id,
+		type: "PUT",
+		error: () => {
+			alert("Something went wrong!!!");
+		}
 	});
 }
 
@@ -103,7 +126,7 @@ function addNewConversation(selector, room) {
 	}
 	$(selector).prepend("<div class='notification-element' id='conversation-" + room.id + "'></div>");
 	$("#conversation-" + room.id).append("<div class='conversation-element conversation-image-element'><img src='" + room.clientDTO.avatarLink + "' class='image-element'/></div>");
-	$("#conversation-" + room.id).append("<div class='conversation-element conversation-content-element'><b style='font-size: 20px;'>" + room.employeeRoomName + "</b><p style='text-overflow: ellipsis;'>" + latestMessage + "</p></div>");
+	$("#conversation-" + room.id).append("<div class='conversation-element conversation-content-element'><b style='font-size: 20px;'>" + room.employeeRoomName + "</b><p style='text-overflow: ellipsis; white-space: nowrap; overflow: hidden;'>" + latestMessage + "</p></div>");
 	$("#conversation-" + room.id).on("click", {roomId: room.id, receiverEmail: room.clientDTO.email}, getMessages);
 }
 
@@ -121,10 +144,19 @@ function getMessages(options) {
 			for(const message of messages) {
 				showMessage(message);
 			}
+			
+			updateMessageNotificationIsSeenOfARoom(roomId);
 		},
 		error: function() {
 			alert("Something went wrong");
 		}
+	});
+}
+
+function updateMessageNotificationIsSeenOfARoom(roomId) {
+	$.ajax({
+		url: "/employee/update-message-notification-is-seen-of-a-room/" + roomId,
+		type: "PUT"
 	});
 }
 
@@ -213,7 +245,7 @@ function showLatestMessage(message, roomId) {
 	if(message.isBinary === 1) {
 		latestMessage.innerText = senderFullName + " has sent you a file"; 
 	}
-	else latestMessage.innerText = senderFullName + ": " + message.content;
+	else latestMessage.innerHTML = senderFullName + ": " + message.content;
 }
 
 function moveConversationElement(roomId) {

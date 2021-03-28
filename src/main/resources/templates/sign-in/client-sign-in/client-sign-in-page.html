@@ -7,26 +7,60 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/common/layout.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/client/client-sign-in/client-sign-in-page.css}"/>
 	<title>Project</title>
 </head>
 <body>
-	<h1>SIGN IN FORM</h1>
-	<th:block th:if="${error != 'empty'}">
-		<p th:text="|${error}|"></p>
-	</th:block>
-	<th:block th:if="${message != 'empty'}">
-		<p th:text="|${message}|"></p>
-	</th:block>
-	<form th:action="@{/do-sign-in}" method="POST">
-		<label for="username">Username: </label>
-		<input type="text" name="username" id="username"/><br/><br/>
-		<label for="password">Password: </label>
-		<input type="password" name="password" id="password"/><br/><br/>
-		<label for="remember-me">Remember me: </label>
-		<input type="checkbox" name="remember-me" id="remember-me"/><br/><br/>
-		<input type="submit" value="Sign in"/><br/><br/>
-		<a th:href="@{/sign-up}">Not signed up yet, click here</a>
-	</form>
+	
+	<div class="header">
+	  	<h1>Header</h1>
+	  	<p>Resize the browser window to see the responsive effect.</p>
+	</div>
+	
+	<div class="topnav">
+		<th:block th:with="temp=${session.client}">
+			<th:block th:switch="${temp}">
+				<th:block th:case="null">
+					<a th:href="@{/sign-in}" class="new">Sign in</a>
+				</th:block>
+				<th:block th:case="*">
+					<a href="#">
+						<img th:src="|${session.client.avatarLink}|" class="avatar" alt="avatar"/>
+					</a>
+					<form th:action="@{/do-sign-out}" method="POST">
+						<a href="#" class="new" id="sign-out-button">Sign out</a>
+					</form>
+					<a th:href="@{/customer-care-services}" class="new">Customer care services</a>
+				</th:block>
+			</th:block>
+		</th:block>
+	</div>
+	
+	<div class="row">
+		<div class="column">
+	    	<h2>SIGN IN</h2>
+			<th:block th:if="${error != 'empty'}">
+				<p class="error-message" th:text="|${error}|"></p>
+			</th:block>
+			<th:block th:if="${message != 'empty'}">
+				<p class="notify-message" th:text="|${message}|"></p>
+			</th:block>
+			<form th:action="@{/do-sign-in}" method="POST">
+				<label for="username">Username</label>
+				<input type="text" class="form-item" name="username" id="username"/><br/><br/>
+				<label for="password">Password</label>
+				<input type="password" class="form-item" name="password" id="password"/><br/><br/>
+				<label for="remember-me">Remember me </label>
+				<input type="checkbox" name="remember-me" id="remember-me"/><br/><br/>
+				<a th:href="@{/sign-up}">Not signed up yet, click here</a><br/><br/>
+				<input type="submit" id="sign-in-button" value="Sign in"/>
+			</form>
+	  	</div>
+	</div>
+	
+	<script type="text/javascript" th:src="@{/js/common/sign-out.js}"></script>
+	
 </body>
 </html>
 

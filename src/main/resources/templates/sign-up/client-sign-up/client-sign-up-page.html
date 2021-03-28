@@ -5,103 +5,136 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/common/layout.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/client/client-sign-up/client-sign-up-page.css}"/>
 	<title>Project</title>
 </head>
 <body>
-	<h1>SIGN UP FORM</h1>
-	<form th:action="@{/do-sign-up}" method="POST" enctype="multipart/form-data" th:object="${client}">
-		<th:block th:if="${#fields.hasErrors('email')}">
-			<th:block th:each="ele : ${#fields.errors('email')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="email">Email: </label>
-		<input type="text" id="email" th:field="*{email}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('password')}">
-			<th:block th:each="ele : ${#fields.errors('password')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="password">Password: </label>
-		<input type="password" id="password" th:field="*{password}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('fullName')}">
-			<th:block th:each="ele : ${#fields.errors('fullName')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="full-name">Full name: </label>
-		<input type="text" id="full-name" th:field="*{fullName}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('phoneNumber')}">
-			<th:block th:each="ele : ${#fields.errors('phoneNumber')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="phoneNumber">Phone number: </label>
-		<input type="text" id="phoneNumber" th:field="*{phoneNumber}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('textDob')}">
-			<th:block th:each="ele : ${#fields.errors('textDob')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="textDob">Date of birth: </label>
-		<input type="date" id="textDob" th:field="*{textDob}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('address.province')}">
-			<th:block th:each="ele : ${#fields.errors('address.province')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="province">Province: </label>
-		<input type="text" id="province" th:field="*{address.province}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('address.city')}">
-			<th:block th:each="ele : ${#fields.errors('address.city')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="city">City: </label>
-		<input type="text" id="city" th:field="*{address.city}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('address.district')}">
-			<th:block th:each="ele : ${#fields.errors('address.district')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="district">District: </label>
-		<input type="text" id="district" th:field="*{address.district}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('address.street')}">
-			<th:block th:each="ele : ${#fields.errors('address.street')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="street">Street: </label>
-		<input type="text" id="street" th:field="*{address.street}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('address.location')}">
-			<th:block th:each="ele : ${#fields.errors('address.location')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="location">Location: </label>
-		<input type="text" id="location" th:field="*{address.location}"/><br/><br/>
-		
-		<th:block th:if="${#fields.hasErrors('avatar')}">
-			<th:block th:each="ele : ${#fields.errors('avatar')}">
-				<span th:text="|${ele}|"></span><br/><br/>
-			</th:block>
-		</th:block>
-		<label for="avatar">Avatar: </label>
-		<input type="file" id="avatar" th:field="*{avatar}"/><br/><br/>
-		
-		<input type="submit" value="Sign up"/>
-	</form>
+	<div class="header">
+	  	<h1>Header</h1>
+	  	<p>Resize the browser window to see the responsive effect.</p>
+	</div>
 	
+	<div class="topnav">
+		<th:block th:with="temp=${session.client}">
+			<th:block th:switch="${temp}">
+				<th:block th:case="null">
+					<a th:href="@{/sign-in}" class="new">Sign in</a>
+				</th:block>
+				<th:block th:case="*">
+					<a href="#">
+						<img th:src="|${session.client.avatarLink}|" class="avatar" alt="avatar"/>
+					</a>
+					<form th:action="@{/do-sign-out}" method="POST">
+						<a href="#" class="new" id="sign-out-button">Sign out</a>
+					</form>
+					<a th:href="@{/customer-care-services}" class="new">Customer care services</a>
+				</th:block>
+			</th:block>
+		</th:block>
+	</div>
+
+	<div class="row">
+		<div class="column">
+	    	<h2>SIGN UP</h2>
+			<form th:action="@{/do-sign-up}" method="POST" enctype="multipart/form-data" th:object="${client}">
+				<th:block th:if="${#fields.hasErrors('email')}">
+					<th:block th:each="ele : ${#fields.errors('email')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="email">Email</label>
+				<input type="text" class="form-item" id="email" th:field="*{email}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('password')}">
+					<th:block th:each="ele : ${#fields.errors('password')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="password">Password</label>
+				<input type="password" class="form-item" id="password" th:field="*{password}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('fullName')}">
+					<th:block th:each="ele : ${#fields.errors('fullName')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="full-name">Full name</label>
+				<input type="text" class="form-item" id="full-name" th:field="*{fullName}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('phoneNumber')}">
+					<th:block th:each="ele : ${#fields.errors('phoneNumber')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="phoneNumber">Phone number</label>
+				<input type="text" class="form-item" id="phoneNumber" th:field="*{phoneNumber}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('address.province')}">
+					<th:block th:each="ele : ${#fields.errors('address.province')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="province">Province</label>
+				<input type="text" class="form-item" id="province" th:field="*{address.province}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('address.city')}">
+					<th:block th:each="ele : ${#fields.errors('address.city')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="city">City</label>
+				<input type="text" class="form-item" id="city" th:field="*{address.city}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('address.district')}">
+					<th:block th:each="ele : ${#fields.errors('address.district')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="district">District</label>
+				<input type="text" class="form-item" id="district" th:field="*{address.district}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('address.street')}">
+					<th:block th:each="ele : ${#fields.errors('address.street')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="street">Street</label>
+				<input type="text" class="form-item" id="street" th:field="*{address.street}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('address.location')}">
+					<th:block th:each="ele : ${#fields.errors('address.location')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="location">Location</label>
+				<input type="text" class="form-item" id="location" th:field="*{address.location}"/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('textDob')}">
+					<th:block th:each="ele : ${#fields.errors('textDob')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="textDob">Date of birth: </label>
+				<input type="date" id="textDob" th:field="*{textDob}"/><br/><br/><br/>
+				
+				<th:block th:if="${#fields.hasErrors('avatar')}">
+					<th:block th:each="ele : ${#fields.errors('avatar')}">
+						<span class="error-message" th:text="|${ele}|"></span><br/><br/>
+					</th:block>
+				</th:block>
+				<label for="avatar">Avatar: </label>
+				<input type="file" id="avatar" th:field="*{avatar}"/><br/><br/>
+				
+				<input type="submit" value="Sign up"/>
+			</form>
+	  	</div>
+	</div>
+
 	
+	<script type="text/javascript" th:src="@{/js/common/sign-out.js}"></script>
 	
 	
 </body>

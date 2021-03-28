@@ -76,7 +76,7 @@
 		            			<th:block th:case="*">
 		            				<th:block th:each="message : ${joinedRoom.messages}">
 		            					<th:block th:if="${messageStat.last}">
-		            						<p th:text="|${message.senderFullName}: ${message.content}|"></p>
+		            						<p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" th:text="|${message.senderFullName}: ${message.content}|"></p>
 		            					</th:block>
 		            				</th:block>
 		            			</th:block>
