@@ -238,9 +238,86 @@ video {
 	margin-top: 10px;
 }
 
+#counsellor-connecting-element {
+	background-color: orange;
+    border: none;
+    outline: none;
+    padding: 6px 24px;
+    cursor: pointer;
+    color: white;
+    border-radius: 50px;
+}
+
+#left-conversation-element {
+	background-color: red;
+    border: none;
+    outline: none;
+    padding: 6px 24px;
+    cursor: pointer;
+    color: white;
+    border-radius: 50px;
+	
+}
+
+#give-feedback-element {
+	background-color: blue;
+    border: none;
+    outline: none;
+    padding: 6px 24px;
+    cursor: pointer;
+    color: white;
+    border-radius: 50px;
+}
+
+button:hover {
+	opacity: 0.7;
+}
+
+.me-content-element {
+	color: white;
+	background-color: rgb(0, 132, 255);
+}
+
+.others-content-element {
+	color: black;
+	background-color: rgb(228, 230, 235);
+}
 
 
+#content-element {
+	box-sizing: border-box;
+	border-radius: 7px;
+}
 
+#container-element {
+	box-sizing: border-box;
+	border-radius: 7px;
+	border: 5px solid #556B2F;
+}
+
+#answer-element {
+	box-sizing: border-box;
+	border-radius: 7px;
+	border: 5px solid #556B2F;
+	padding: 5px;
+}
+
+#rating-button-child-element {
+	background-color: brown;
+    border: none;
+    outline: none;
+    padding: 6px 24px;
+    cursor: pointer;
+    color: white;
+    border-radius: 50px;
+    margin-left: 82%;
+}
+
+#text-rating-content-element {
+	box-sizing: border-box;
+	border: 5px solid green;
+	border-radius: 5px;
+}
 
 
 

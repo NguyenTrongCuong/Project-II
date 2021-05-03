@@ -12,33 +12,34 @@
 </head>
 <body>
 	<div class="header">
-	  	<h1>Header</h1>
-	  	<p>Resize the browser window to see the responsive effect.</p>
+	  	<h1>Project II</h1>
+	  	<p>Developed by Nguyen Trong Cuong</p>
 	</div>
 	
 	<div class="topnav">
 		<th:block th:with="temp=${session.client}">
-		<th:block th:switch="${temp}">
-			<th:block th:case="null">
-				<a th:href="@{/sign-in}" class="new">Sign in</a>
-			</th:block>
-			<th:block th:case="*">
-				<a href="#">
-					<img th:src="|${session.client.avatarLink}|" class="avatar" alt="avatar"/>
-				</a>
-				<form th:action="@{/do-sign-out}" method="POST">
-					<a href="#" class="new" id="sign-out-button">Sign out</a>
-				</form>
-				<a th:href="@{/customer-care-services}" class="new">Customer care services</a>
+			<th:block th:switch="${temp}">
+				<th:block th:case="null">
+					<a th:href="@{/}" class="new">Home</a>
+					<a th:href="@{/sign-in}" class="new">Sign in</a>
+				</th:block>
+				<th:block th:case="*">
+					<a th:href="@{/}">
+						<img th:src="|${session.client.avatarLink}|" class="avatar" alt="avatar"/>
+					</a>
+					<form th:action="@{/do-sign-out}" method="POST">
+						<a href="#" class="new" id="sign-out-button">Sign out</a>
+					</form>
+					<a th:href="@{/customer-care-services}" class="new">Customer care services</a>
+				</th:block>
 			</th:block>
 		</th:block>
-	</th:block>
 	</div>
 	
 	<div class="row">
 		<div class="column">
-	    	<h2>Column</h2>
-	    	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+	    	<h2></h2>
+	    	<p></p>
 	  	</div>
 	</div>
 	

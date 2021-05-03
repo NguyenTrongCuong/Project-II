@@ -64,8 +64,8 @@ const chartIconHandler = () => {
     $(".column2").empty();
     $(".column2").append("<h2>View statistic</h2>");
     $(".column2").append("<div id='statistic-button-container'></div>");
-    $("#statistic-button-container").append("<div class='statistic-button'><button id='star-feedback-consultations-statistic-button'>View 1</button></div>");
-    $("#statistic-button-container").append("<div class='statistic-button'><button id='top-n-counsellors-statistic-button'>View 2</button></div>");
+    $("#statistic-button-container").append("<div class='statistic-button'><button id='star-feedback-consultations-statistic-button'>Statistics of consultations categorized by star rating</button></div>");
+    $("#statistic-button-container").append("<div class='statistic-button'><button id='top-n-counsellors-statistic-button'>Statistics of counsellors' working efficiency</button></div>");
     $("#star-feedback-consultations-statistic-button").click((event) => {
         statisticStack.push(chartIconHandler);
         viewStarFeedbackConsultationsStatistic();
@@ -118,13 +118,21 @@ const handleTimeTypeChangeOfViewStarFeedbackConsultationsStatistic = (time) => {
     }
     else if(time === "month") {
         $("#time-content").append("<label for='time-content'>Month-Year: </label>");
-        $("#time-content").append("<input type='number' min='1' max='12' required id='month-time-content'/> - ");
-        $("#time-content").append("<input type='number' required  id='year-time-content'/><br/><br/>");
+        $("#time-content").append("<input type='number' min='1' max='12' id='month-time-content' required/> - ");
+        $("#time-content").append("<input type='number' id='year-time-content' required/> <i class='fas fa-times-circle month-year-error'></i><br/><br/>");
     }
     $("#time-content").append("<input type='submit' id='view-star-feedback-consultations-statistic' value='View'/>");
     
     $("#day-time-content").blur(event => {
     	checkDayTimeContent();
+    });
+    
+    $("#month-time-content").blur(event => {
+    	checkMonth();
+    });
+    
+    $("#year-time-content").blur(event => {
+    	checkYear();
     });
     
     $("#view-star-feedback-consultations-statistic").click((event) => {
@@ -145,13 +153,21 @@ const handleTimeTypeChangeOfConsultationsManagement = (time) => {
     }
     else if(time === "month") {
         $("#time-content").append("<label for='time-content'>Month-Year: </label>");
-        $("#time-content").append("<input type='number' min='1' max='12' required id='month-time-content'/> - ");
-        $("#time-content").append("<input type='number' required  id='year-time-content'/><br/><br/>");
+        $("#time-content").append("<input type='number' min='1' max='12' id='month-time-content' required/> - ");
+        $("#time-content").append("<input type='number' id='year-time-content' required/> <i class='fas fa-times-circle month-year-error'></i><br/><br/>");
     }
     $("#time-content").append("<input type='submit' id='view-consultations-button' value='View'/>");
     
     $("#day-time-content").blur(event => {
     	checkDayTimeContent();
+    });
+    
+    $("#month-time-content").blur(event => {
+    	checkMonth();
+    });
+    
+    $("#year-time-content").blur(event => {
+    	checkYear();
     });
     
     $("#view-consultations-button").click((event) => {
@@ -181,13 +197,21 @@ const handleTimeTypeChangeOfViewTopNCounsellors = (time) => {
     }
     else if(time === "month") {
         $("#time-content").append("<label for='time-content'>Month-Year: </label>");
-        $("#time-content").append("<input type='number' min='1' max='12' required id='month-time-content'/> - ");
-        $("#time-content").append("<input type='number' required  id='year-time-content'/><br/><br/>");
+        $("#time-content").append("<input type='number' min='1' max='12' id='month-time-content' required/> - ");
+        $("#time-content").append("<input type='number' id='year-time-content' required/> <i class='fas fa-times-circle month-year-error'></i><br/><br/>");
     }
     $("#time-content").append("<input type='submit' id='view-top-n-counsellors-button' value='View'/>");
     
     $("#day-time-content").blur(event => {
     	checkDayTimeContent();
+    });
+    
+    $("#month-time-content").blur(event => {
+    	checkMonth();
+    });
+    
+    $("#year-time-content").blur(event => {
+    	checkYear();
     });
     
     $("#view-top-n-counsellors-button").click((event) => {
@@ -198,7 +222,7 @@ const handleTimeTypeChangeOfViewTopNCounsellors = (time) => {
 
 const handleViewStatisticExit = () => {
 	$(".column3").empty();
-	$(".column3").append("<h2>Column</h2>");
+	$(".column3").append("<h2>Header</h2>");
     const prev = statisticStack.pop();
     prev();
 };
@@ -241,7 +265,8 @@ function getSuggestion(regexp) {
 }
 
 function performViewConsultations(time) {
-	if(checkCounsellorId() && checkDayTimeContent()) {
+	let flag = time === "day" ? checkDayTimeContent() : (checkMonth() && checkYear());
+	if(checkCounsellorId() && flag) {
 		const counsellorId = $("#counsellor-id").val();
 		const employeeEmailComponents = counsellorId.split(" ");
 		const lastComponent = employeeEmailComponents[employeeEmailComponents.length - 1];
@@ -266,6 +291,52 @@ function performViewConsultations(time) {
 		});
 	}
 	
+}
+
+function performViewTopNCounsellors(time) {
+	let flag = time === "day" ? checkDayTimeContent() : (checkMonth() && checkYear());
+	if(flag) {
+		const star = $("#star").val();
+		const topNCounsellors = $("#top-n-counsellors").val();
+		
+		let statisticRequest = createStatisticRequest(time);
+		
+		statisticRequest.star = star;
+		statisticRequest.topNCounsellor = topNCounsellors;
+		
+		$.ajax({
+			url: "/employee/get-top-n-counsellors",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(statisticRequest),
+			success: (statisticResponse) => {
+				createChart(statisticResponse);
+			},
+			error: (errors) => {
+				alert("Something went wrong");
+			}
+		});
+	}
+}
+
+function performViewStarFeedbackConsultationsStatistic(time) {
+	let flag = time === "day" ? checkDayTimeContent() : (checkMonth() && checkYear());
+	if(flag) {
+		let statisticRequest = createStatisticRequest(time);
+		
+		$.ajax({
+			url: "/employee/get-consultations-categorized-by-star-feedback",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(statisticRequest),
+			success: (statisticResponse) => {
+				createChart(statisticResponse);
+			},
+			error: (errors) => {
+				alert("Something went wrong");
+			}
+		});
+	}
 }
 
 function renderRooms(rooms) {
@@ -337,54 +408,9 @@ function renderMessages(messages, roomName, employeeEmail, starFeedback, textFee
 
 function handleManagementExit() {
 	$(".column3").empty();
-	$(".column3").append("<h2>Column</h2>");
+	$(".column3").append("<h2>Header</h2>");
     const prev = managementStack.pop();
     prev();
-}
-
-
-function performViewTopNCounsellors(time) {
-	if(checkDayTimeContent()) {
-		const star = $("#star").val();
-		const topNCounsellors = $("#top-n-counsellors").val();
-		
-		let statisticRequest = createStatisticRequest(time);
-		
-		statisticRequest.star = star;
-		statisticRequest.topNCounsellor = topNCounsellors;
-		
-		$.ajax({
-			url: "/employee/get-top-n-counsellors",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(statisticRequest),
-			success: (statisticResponse) => {
-				createChart(statisticResponse);
-			},
-			error: (errors) => {
-				alert("Something went wrong");
-			}
-		});
-	}
-}
-
-function performViewStarFeedbackConsultationsStatistic(time) {
-	if(checkDayTimeContent()) {
-		let statisticRequest = createStatisticRequest(time);
-		
-		$.ajax({
-			url: "/employee/get-consultations-categorized-by-star-feedback",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(statisticRequest),
-			success: (statisticResponse) => {
-				createChart(statisticResponse);
-			},
-			error: (errors) => {
-				alert("Something went wrong");
-			}
-		});
-	}
 }
 
 function createStatisticRequest(time) {
@@ -512,9 +538,37 @@ function checkCounsellorId() {
     return isValid;
 }
 
+function checkMonth() {
+	isValid = false;
+	const month = $("#month-time-content").val();
+	if(month === "") {
+		$(".month-year-error").css("visibility", "visible");
+	}
+	else {
+		isValid = true;
+		$(".month-year-error").css("visibility", "hidden");
+	}
+	
+	return isValid;
+}
+
+function checkYear() {
+	isValid = false;
+	const year = $("#year-time-content").val();
+	if(year === "") {
+		$(".month-year-error").css("visibility", "visible");
+	}
+	else {
+		isValid = true;
+		$(".month-year-error").css("visibility", "hidden");
+	}
+	
+	return isValid;
+}
+
 function resetColumn3() {
 	$(".column3").empty();
-	$(".column3").append("<h2>Column</h2>");
+	$(".column3").append("<h2>Header</h2>");
 }
 
 $("#chart-icon").click((event) => {

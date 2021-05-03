@@ -42,6 +42,9 @@ public class Message implements Persistable<Long>, Serializable {
 	@Column(name="is_binary")
 	private boolean isBinary;
 	
+	@Column(name="is_seen")
+	private int isSeen = 0;
+	
 	@ManyToOne
 	@JoinColumn(name="room_ids")
 	private Room room;
@@ -56,6 +59,14 @@ public class Message implements Persistable<Long>, Serializable {
 	private boolean isNew = true;
 	
 	private static final long serialVersionUID = 1L;
+
+	public int getIsSeen() {
+		return isSeen;
+	}
+
+	public void setIsSeen(int isSeen) {
+		this.isSeen = isSeen;
+	}
 
 	public String getSenderAvatarLink() {
 		return senderAvatarLink;

@@ -146,6 +146,11 @@ function getMessages(options) {
 			}
 			
 			updateMessageNotificationIsSeenOfARoom(roomId);
+			
+			setMessageSeen(roomId);
+			
+			updateMessagesIsSeenOfRoom(roomId);
+			
 		},
 		error: function() {
 			alert("Something went wrong");
@@ -156,7 +161,26 @@ function getMessages(options) {
 function updateMessageNotificationIsSeenOfARoom(roomId) {
 	$.ajax({
 		url: "/employee/update-message-notification-is-seen-of-a-room/" + roomId,
-		type: "PUT"
+		type: "PUT",
+		error: (errors) => {
+			alert("Something went wrong");
+		}
+	});
+}
+
+function setMessageSeen(roomId) {
+	let latestMessage = $("#conversation-" + roomId).find("p")[0];
+	
+	latestMessage.classList.remove("new-message");
+}
+
+function updateMessagesIsSeenOfRoom(roomId) {
+	$.ajax({
+		url: "/employee/update-message-is-seen-of-room/" + roomId,
+		type: "PUT",
+		error: (errors) => {
+			alert("Something went wrong");
+		}
 	});
 }
 
@@ -246,6 +270,26 @@ function showLatestMessage(message, roomId) {
 		latestMessage.innerText = senderFullName + " has sent you a file"; 
 	}
 	else latestMessage.innerHTML = senderFullName + ": " + message.content;
+	
+	if(message.senderEmail !== employeeEmail) {
+		if(message.roomId === isInRoom) {
+			latestMessage.classList.remove("new-message");
+			updateMessageIsSeen(message.id);
+		}
+		else {
+			latestMessage.classList.add("new-message");
+		}
+	}
+}
+
+function updateMessageIsSeen(messageId) {
+	$.ajax({
+		url: "/employee/update-message-is-seen/" + messageId,
+		type: "PUT",
+		error: (errors) => {
+			alert("Something went wrong");
+		}
+	});
 }
 
 function moveConversationElement(roomId) {

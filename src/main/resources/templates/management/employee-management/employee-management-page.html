@@ -18,8 +18,8 @@
 </head>
 <body>
 	<div class="header">
-	  	<h1>Header</h1>
-	  	<p>Resize the browser window to see the responsive effect.</p>
+	  	<h1>Project II</h1>
+	  	<p>Developed by Nguyen Trong Cuong</p>
 	</div>
 	
 	<div class="topnav">
@@ -29,7 +29,7 @@
 					<a th:href="@{/employee/sign-in}" class="new">Sign in</a>
 				</th:block>
 				<th:block th:case="*">
-					<a>
+					<a th:href="@{/employee}">
 						<img th:src="|${session.employee.avatarLink}|" class="avatar" alt="avatar"/>
 					</a>
 					<div sec:authorize="hasRole('ROLE_ADMIN')">
@@ -48,22 +48,22 @@
 	
 	<div class="row">
         <div class="column column1">
-            <h2>Column</h2>
-            <div class="icons-container" id="chart-icon">
+            <h2>Options</h2>
+            <div title="statistic management" class="icons-container" id="chart-icon">
                 <i class="fas fa-chart-area"></i>
             </div>
-            <div class="icons-container" id="management-icon">
+            <div title="consultation management" class="icons-container" id="management-icon">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
         </div>
         
         <div class="column column2">
-            <h2>Column</h2>
+            <h2>Header</h2>
             <p></p>
         </div>
 
         <div class="column column3">
-            <h2>Column</h2>
+            <h2>Header</h2>
         </div>
         
     </div>

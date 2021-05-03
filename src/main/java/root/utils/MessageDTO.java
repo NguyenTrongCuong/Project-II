@@ -16,18 +16,28 @@ public class MessageDTO {
 	private String senderFullName;
 	private String senderAvatarLink;
 	private int isBinary;
+	private int isSeen;
 	
 	public MessageDTO(Message message, ClientService clientService, EmployeeService employeeService) {
 		this.id = message.getId();
 		this.roomId = message.getRoom().getId();
 		this.content = message.getContent();
 		this.isBinary = message.isBinary() ? 1 : 0;
+		this.isSeen = message.getIsSeen();
 		this.sentAt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 	            						.withZone(ZoneId.of("Asia/Ho_Chi_Minh"))
 	            						.format(message.getSentAt());
 		this.senderEmail = message.getSenderEmail();
 		this.senderFullName = message.getSenderFullName();
 		this.senderAvatarLink = message.getSenderAvatarLink();
+	}
+
+	public int getIsSeen() {
+		return isSeen;
+	}
+
+	public void setIsSeen(int isSeen) {
+		this.isSeen = isSeen;
 	}
 
 	public Long getRoomId() {

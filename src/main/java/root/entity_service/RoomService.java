@@ -4,12 +4,14 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import root.entity.Message;
 import root.entity.Room;
 import root.entity_repository.RoomRepository;
 import root.utils.JoinedInRoomsRequest;
@@ -17,6 +19,8 @@ import root.utils.RoomDTO;
 import root.utils.StatisticRequest;
 import root.utils.StatisticResponse;
 import root.utils.TopNStatisticRequest;
+
+import static java.util.stream.Collectors.toSet;
 
 @Service
 public class RoomService {
@@ -57,8 +61,19 @@ public class RoomService {
 		return this.roomRepository.findById(roomId);
 	}
 	
+	public Optional<Room> findRoomByIdWithMessagesLoadedEagerly(long roomId) {
+		return this.roomRepository.findRoomById(roomId);
+	}
+	
 	public Optional<List<Room>> findAllRoomsThatEmployeeJoinedInByTime(JoinedInRoomsRequest request) {
 		return this.performFindAllJoinedInRoomsOfACounsellor(request);
+	}
+	
+	public Set<Message> findMessagesBySenderEmailOfRoom(Room room, String receiverEmail) {
+		Set<Message> messages = room.getMessages();
+		return messages.stream()
+					   .filter(message -> !message.getSenderEmail().equals(receiverEmail))
+					   .collect(toSet());
 	}
 	
 	public StatisticResponse<Integer, String> getTotalNumberOfRoomsCategorizedByStarFeedback(StatisticRequest request) {

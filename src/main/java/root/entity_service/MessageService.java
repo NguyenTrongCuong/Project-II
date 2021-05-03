@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -23,10 +24,13 @@ import root.utils.MessageDTO;
 public class MessageService {
 	@Autowired
 	private EmployeeService employeeService;
+	
 	@Autowired
 	private ClientService clientService;
+	
 	@Autowired
 	private MessageRepository messageRepository;
+	
 	@Autowired
 	private AWSS3Service awsS3Service;
 	
@@ -51,6 +55,29 @@ public class MessageService {
 	}
 	
 	public Iterable<Message> saveMessages(List<Message> messages) {
+		return this.messageRepository.saveAll(messages);
+	}
+	
+	public Optional<Message> findMessageById(long id) {
+		return this.messageRepository.findById(id);
+	}
+	
+	public Message updateMessageIsSeenById(long id, int isSeen) {
+		Message message = this.findMessageById(id).get();
+		message.setIsSeen(isSeen);
+		return this.updateMessage(message);
+	}
+	
+	public Iterable<Message> updateMessagesIsSeen(Set<Message> messages, int isSeen) {
+		messages.stream().forEach(message -> message.setIsSeen(isSeen));
+		return this.updateMessages(messages);
+	}
+	
+	public Message updateMessage(Message message) {
+		return this.messageRepository.save(message);
+	}
+	
+	public Iterable<Message> updateMessages(Set<Message> messages) {
 		return this.messageRepository.saveAll(messages);
 	}
 	
